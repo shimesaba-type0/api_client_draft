@@ -16,9 +16,23 @@ end
 
 ### GET ###
 # all users
+puts "-----------------------------"
+puts " Get all users"
+puts "-----------------------------"
+
 res = conn.get "/users"
 body = JSON.parse res.body
 pp body
+
+puts "-----------------------------"
+puts " Get user id=2"
+puts "-----------------------------"
+
+# get user info about id 2
+res = conn.get "/users/2"
+body = JSON.parse res.body
+pp body
+
 
 
 

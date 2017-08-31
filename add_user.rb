@@ -19,28 +19,22 @@ end
 # ('a'..'z').to_a.sample(5).join
 sample_user = ('a'..'z').to_a.sample(5).join
 age = (1..8).to_a.sample(2).join
-s_user_info = {
-	user: {
-		name: "#{sample_user}",
-		age: age,
-		description: "#{sample_user} description"
-	}
-}
-p s_user_info
+s_user_info = { user: { name: "#{sample_user}", age: age, description: "#{sample_user} description" } }
 
 ### POST ###
 # add user
-puts "-----------------------------"
-puts " Add user"
-puts "-----------------------------"
-
-#res = conn.post "/users", {:name => "David", :age => 33, :description => "new type"}
 res = conn.post "/users", s_user_info
 
 body = JSON.parse res.body
-#req_headers = JSON.parse res.request_headers
-#pp req_headers
+request_headers = JSON.parse res.env[:request_headers].to_json
+puts res.env[:method]
+pp request_headers
+
 pp body
+res.env.each do |k, v|
+  puts "kye   = #{k}"
+  pp   "value = #{v}"
+end
 
 
 

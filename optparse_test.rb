@@ -21,14 +21,29 @@ opt = OptionParser.new
 
 
 # -----------
-OPT = {}
-opt.on("-a") {|v| OPT[:a] = v}
-opt.on("-b") {|v| OPT[:b] = v}
+# OPT = {}
+# opt.on("-a") {|v| OPT[:a] = v}
+# opt.on("-b") {|v| OPT[:b] = v}
+# 
+# opt.parse!(ARGV)
+# p ARGV
+# p OPT
+# 
+# # ruby optparse_test.rb -a foo bar -b baz
+# # ["foo", "bar", "baz"]
+# # {:a=>true, :b=>true}
+
+# -----------
+opt.on("-a VAL") {|v| p v }
+opt.on("-b") {|v| p v }
 
 opt.parse!(ARGV)
 p ARGV
-p OPT
 
-# ruby optparse_test.rb -a foo bar -b baz
-# ["foo", "bar", "baz"]
-# {:a=>true, :b=>true}
+# ruby optparse_test.rb
+# "foo"
+# true
+# ["bar", "baz"]
+
+
+

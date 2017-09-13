@@ -2,11 +2,20 @@
 require "faraday"
 require "json"
 require "pp"
+require "optparse"
 
 # class BadRequest < StandardError; end # 400 用
 # class NotFound < StandardError; end # 404 用
 # class ServerError < StandardError; end # 500 系と接続エラー用
 # class TimeoutError < StandardError; end # タイムアウト用
+
+# コマンドラインオプション
+opt = OptionParser.new
+OPT = {}
+opt.on("-n", "--name=NAME") {|v| OPT[:name] = v }
+opt.on("-a", "--age=AGE") {|v| OPT[:age] = v }
+opt.on("-d", "--desc=DESCRIPTION") {|v| OPT[:desc] = v }
+
 
 ### connection
 # make url
@@ -16,12 +25,12 @@ url = "#{base_url}:#{port}"
 
 # connection
 conn = Faraday.new(:url => url) do |faraday|
- faraday.request  :url_encoded             # form-encode POST params
- #faraday.response :logger                  # log requests to STDOUT
- faraday.headers['Content-Type'] = 'application/json'		# Set Content-Type
- faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+  faraday.request  :url_encoded             # form-encode POST params
+  #faraday.response :logger                  # log requests to STDOUT
+  faraday.headers['Content-Type'] = 'application/json'		# Set Content-Type
+  faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
 end
-
+    
 ### GET
 # user id generator
 # user_id = (1..9).to_a.sample(1).join
@@ -32,18 +41,19 @@ resource = "/users/#{user_id}"
 res = conn.get resource
 
 if res.success?
-	body = JSON.parse res.body
-	pp body
+  body = JSON.parse res.body
+  pp body
 else
-	message = {}
-	res.env.each do |k, v|
-		if ["url", "method", "status", "request", "request_headers",
-				"reason_phrase", "response_headers"].include?(k.to_s) then
-			message[k.to_s] = v.to_s
-		end
-	end
-	puts message
+  message = {}
+  res.env.each do |k, v|
+    if ["url", "method", "status", "request", "request_headers",
+        "reason_phrase", "response_headers"].include?(k.to_s) then
+      message[k.to_s] = v.to_s
+    end
+  end
+  puts message
 end
+
 
 ### Actually, I want to write like below.
 # begin

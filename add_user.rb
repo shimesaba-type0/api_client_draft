@@ -10,8 +10,8 @@ port = "3000"
 url = "#{base_url}:#{port}"
 
 conn = Faraday.new(:url => url) do |faraday|
-	faraday.request :json
-	faraday.adapter Faraday.default_adapter
+  faraday.request :json
+  faraday.adapter Faraday.default_adapter
 end
 
 

@@ -1,5 +1,6 @@
-# coding: utf-8
+#!/usr/bin/env ruby; coding: utf-8
 require "faraday"
+require "faraday_middleware"
 require "json"
 require "pp"
 require "optparse"
@@ -11,10 +12,26 @@ require "optparse"
 
 # コマンドラインオプション
 opt = OptionParser.new
+opt.banner = "Usage: get_user_info.rb [options]"
 OPT = {}
-opt.on("-n", "--name=NAME") {|v| OPT[:name] = v }
-opt.on("-a", "--age=AGE") {|v| OPT[:age] = v }
-opt.on("-d", "--desc=DESCRIPTION") {|v| OPT[:desc] = v }
+
+opt.on("-i", "--id=ID", String, "ID value.") {|v|
+  OPT[:id] = v
+}
+opt.on("-h", "--help", "Show this message") {
+  puts opt
+  exit
+}
+
+begin
+  opt.parse!(ARGV)
+rescue OptionParser::InvalidOption => e
+  puts "ERROR: #{e}"
+  exit
+rescue OptionParser::ParseError => e
+  puts "ERROR: #{e}"
+  exit
+end
 
 
 ### connection
@@ -25,18 +42,16 @@ url = "#{base_url}:#{port}"
 
 # connection
 conn = Faraday.new(:url => url) do |faraday|
-  faraday.request  :url_encoded             # form-encode POST params
-  #faraday.response :logger                  # log requests to STDOUT
-  faraday.headers['Content-Type'] = 'application/json'		# Set Content-Type
+  faraday.request :json
+  # faraday.request  :url_encoded             # form-encode POST params
+  # faraday.response :logger                  # log requests to STDOUT
+  # faraday.headers['Content-Type'] = 'application/json'    # Set Content-Type
   faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
 end
-    
-### GET
-# user id generator
-# user_id = (1..9).to_a.sample(1).join
-user_id = (1..9).to_a.sample(2).join
-puts user_id
 
+
+### GET
+user_id = OPT[:id]
 resource = "/users/#{user_id}"
 res = conn.get resource
 

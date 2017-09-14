@@ -15,10 +15,10 @@ opt.on("-d", "-desc=DESCRIPTION") {|v| OPT[:desc] = v }
 opt.separator ""
 opt.separator "Common Options"
 
-opt.on("-h", "-help", "Show this message") {|v| OPT[:help] = v }
-if OPT[:help]
-  puts usage
-end
+# opt.on("-h", "-help", "Show this message") {|v| OPT[:help] = v }
+# if OPT[:help]
+#   puts usage
+# end
 
 opt.parse!(ARGV)
 p ARGV

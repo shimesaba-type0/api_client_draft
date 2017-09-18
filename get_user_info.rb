@@ -23,6 +23,11 @@ opt.on("-h", "--help", "Show this message") {
   exit
 }
 
+if ARGV.length <= 0
+  puts opt
+  exit
+end
+
 begin
   opt.parse!(ARGV)
 rescue OptionParser::InvalidOption => e
@@ -32,6 +37,8 @@ rescue OptionParser::ParseError => e
   puts "ERROR: #{e}"
   exit
 end
+
+
 
 
 ### connection
@@ -51,8 +58,7 @@ end
 
 
 ### GET
-user_id = OPT[:id]
-resource = "/users/#{user_id}"
+resource = "/users/#{OPT[:id]}"
 res = conn.get resource
 
 if res.success?

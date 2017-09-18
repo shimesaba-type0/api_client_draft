@@ -3,6 +3,49 @@ require "faraday"
 require "faraday_middleware"
 require "json"
 require "pp"
+require "optparse"
+
+# Command line option
+opt = OptionParser.new
+opt.banner = "Usage: add_user.rb [options]"
+OPT = {
+  name: "",
+  age:  "",
+  desc: "",
+}
+
+opt.on("-n", "--name=NAME", String, "Name. (default: #{OPT[:name]})"){ |v|
+  OPT[:name] = v
+}
+opt.on("-a", "--age=AGE", Integer, "Age. (default: #{OPT[:age]})") { |v|
+  OPT[:age] = v
+}
+opt.on("-d", "--desc=DESCRIPTION", String, "Description. (default: #{OPT[:desc]})") { |v|
+  OPT[:desc] = v
+}
+opt.on("-h", "--help", "Show this message") {
+  puts opt
+  exit
+}
+
+if ARGV.length <= 0
+  puts opt
+  exit
+end
+
+begin
+  opt.parse!(ARGV)
+rescue OptionParser::InvalidOption => e
+  puts "ERROR: #{e}"
+  exit
+rescue OptionParser::ParseError => e
+  puts "EEROR: #{e}"
+  exit
+end
+
+## user info
+user_info = { user: { name: "#{OPT[:name]}", age: "#{OPT[:age]}", description: "#{OPT[:desc]}" } }
+
 
 # connection
 base_url = "http://localhost"
@@ -15,26 +58,32 @@ conn = Faraday.new(:url => url) do |faraday|
 end
 
 
-## sample user
-# ('a'..'z').to_a.sample(5).join
-sample_user = ('a'..'z').to_a.sample(5).join
-age = (1..8).to_a.sample(2).join
-s_user_info = { user: { name: "#{sample_user}", age: age, description: "#{sample_user} description" } }
-
 ### POST ###
 # add user
-res = conn.post "/users", s_user_info
+resource = "/users"
+res = conn.post resource, user_info
 
-body = JSON.parse res.body
-request_headers = JSON.parse res.env[:request_headers].to_json
-puts res.env[:method]
-pp request_headers
-
-pp body
-res.env.each do |k, v|
-  puts "kye   = #{k}"
-  pp   "value = #{v}"
+if res.success?
+  body = JSON.parse res.body
+  request_headers = JSON.parse res.env[:request_headers].to_json
+  puts "Request URL: #{res.env[:url]}"
+  puts "Method: #{res.env[:method]}"
+  puts "Status: #{res.env[:status]}"
+  puts "Reason_phrase: #{res.env[:reason_phrase]}"
+  pp "Response_headers: #{res.env[:response_headers]}"
+  pp body
+  # pp request_headers
+else
+  message = {}
+  res.env.eacch do |k, v|
+    if ["url", "method", "status", "request", "request_headers",
+        "reason_phrase", "response_headers"].include?(k.to_s)
+      message[k.to_s] = v.to_s
+    end
+  end
+  puts message
 end
+
 
 
 

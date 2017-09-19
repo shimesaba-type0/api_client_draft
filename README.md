@@ -6,15 +6,52 @@ I would like to make below programs.
 
 ### API Client list
 - get_users.rb
-  - In progress
-- get_user_info.rb
-  - In progress
-- add_user.rb
+  - Get all user information
   - Done
+- get_user_info.rb
+  - Get a user information
+  - Done
+- add_user.rb
+  - Add a user information
+  - Done
+- search_user_info.rb
+  - Search user information
+  - Yet
 - update_user_info.rb
   - Yet
 - delete_user.rb
   - Yet
+
+### Senario
+#### Add user
+1. `$ ruby add_user.rb -n NAME -a AGE -d DESCRIPTION`
+1. Complete
+
+#### Get all users information
+1. `$ ruby get_users.rb`
+1. Complete
+
+#### Get a user information
+1. `$ ruby get_user_info.rb -i ID`
+1. Complete
+
+#### Search user information
+1. `$ ruby search_user_info.rb -n NAME`
+1. Completed
+Attention: Did not development search by age and description.
+
+#### Update user information
+1. `$ ruby search_user_info.rb -n NAME`
+1. Get user ID
+1. `$ ruby update_user_info.rb -i ID [-n NAME -a AGE -d DESCRIPTION]`
+1. `$ ruby get_user_info.rb -i ID
+1. Complete
+
+#### Delete user information
+1. `$ ruby search_user_info.rb -n NAME`
+1. Get user ID
+1. `$ ruby delete_user.rb -i ID [-n NAME -a AGE -d DESCRIPTION]`
+1. Complete
 
 
 # CAUTION

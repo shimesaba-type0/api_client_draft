@@ -44,7 +44,13 @@ rescue OptionParser::ParseError => e
 end
 
 ## user info
-user_info = { user: { name: "#{OPT[:name]}", age: "#{OPT[:age]}", description: "#{OPT[:desc]}" } }
+user_info = {
+  user: {
+    name: "#{OPT[:name]}",
+    age: "#{OPT[:age]}",
+    description: "#{OPT[:desc]}"
+  }
+}
 
 
 # connection
@@ -65,12 +71,12 @@ res = conn.post resource, user_info
 
 if res.success?
   body = JSON.parse res.body
-  request_headers = JSON.parse res.env[:request_headers].to_json
+  # request_headers = JSON.parse res.env[:request_headers].to_json
   puts "Request URL: #{res.env[:url]}"
   puts "Method: #{res.env[:method]}"
   puts "Status: #{res.env[:status]}"
   puts "Reason_phrase: #{res.env[:reason_phrase]}"
-  pp "Response_headers: #{res.env[:response_headers]}"
+  pp "Response_headers: #{res.env[:response_headers].to_json}"
   pp body
   # pp request_headers
 else

@@ -14,7 +14,7 @@ I would like to make below programs.
 - add_user.rb
   - Add a user information
   - Done
-- search_user_info.rb
+- search_user.rb
   - Search user information
   - Yet
 - update_user_info.rb

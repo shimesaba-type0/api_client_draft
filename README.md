@@ -16,9 +16,10 @@ I would like to make below programs.
   - Done
 - search_user.rb
   - Search user information
-  - Yet
+  - Done
 - update_user_info.rb
-  - Yet
+  - Update user information
+  - Done
 - delete_user.rb
   - Yet
 

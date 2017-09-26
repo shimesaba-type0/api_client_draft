@@ -1,3 +1,2 @@
-get_user_info_output
-./optparse_test1.rb
-./optparse_test2.rb
+# Ignore FYI directory
+./FYI/

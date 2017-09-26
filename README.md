@@ -21,7 +21,8 @@ I would like to make below programs.
   - Update user information
   - Done
 - delete_user.rb
-  - Yet
+  - Delete user information
+  - Done
 
 ### Senario
 #### Add user
@@ -45,13 +46,13 @@ Attention: Did not development search by age and description.
 1. `$ ruby search_user_info.rb -n NAME`
 1. Get user ID
 1. `$ ruby update_user_info.rb -i ID [-n NAME -a AGE -d DESCRIPTION]`
-1. `$ ruby get_user_info.rb -i ID
+1. `$ ruby get_user_info.rb -i ID`
 1. Complete
 
 #### Delete user information
 1. `$ ruby search_user_info.rb -n NAME`
 1. Get user ID
-1. `$ ruby delete_user.rb -i ID [-n NAME -a AGE -d DESCRIPTION]`
+1. `$ ruby delete_user.rb -i ID`
 1. Complete
 
 
